@@ -1,0 +1,29 @@
+<link rel="stylesheet" type="text/css" href="/css/notes.css">
+<div class="card">
+<div id="heading" class="profile">
+    <h4>notes page</h4>
+
+    
+    <h5 id="note_name"><%=locals.filename%></h5>
+    <h5 id="note_id"><%=locals.id%></h5>
+    <h5 id="user_id"><%=locals.user_id%></h5>
+</div>
+<div id="display_notes" class="post">
+    <object data="/uploads/notes/<%=locals.filename%>" width="450" height="400"></object>
+ </div>
+
+ <p id="likes"></p>
+<button id="like_button">like</button>
+<button id="dislike_button">Dislike</button>
+
+
+<p id="views"></p>
+
+
+<input type="text" id="add_comment_to_note">
+<input type="submit" id="add_comment_note_btn" value="add comment">
+<div id="comments_section">
+
+</div>
+</div>
+<script src="/js/notes.js"></script>
