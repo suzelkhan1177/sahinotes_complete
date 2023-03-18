@@ -1,13 +1,16 @@
 const User = require("../models/users");
 const env = require("../environment");
+const fast2sms = require("fast-two-sms");
 
 module.exports.verifyMobile = (req, res) => {
   if (req.isAuthenticated()) {
     var user = req.user.name;
     var user_id = req.user.id;
+    var email = req.user.email;
     res.render("verify_mobile", {
        userName : user,
-       user_id: user_id
+       user_id: user_id,
+       email: email
     });
   } else {
     res.render("signin");
@@ -17,12 +20,9 @@ module.exports.verifyMobile = (req, res) => {
 module.exports.sendOtpMessage = (req, res) => {
   // send the otp message
   const mobilenumber = req.params.mobileNumber;
-  console.log(req.params);
-  const userEmail = req.user.email;
-  console.log("OTP Controller");
+  const userEmail = req.params.email;
   API_KEY = env.API_KEY_MOBILE;
 
-  const fast2sms = require("fast-two-sms");
   const OTP = Math.floor(Math.random() * 9000) + 1000;
 
   var options = {
@@ -31,9 +31,9 @@ module.exports.sendOtpMessage = (req, res) => {
     numbers: [mobilenumber],
   };
 
-  async function sendOtpMessage() {
-    var res = true; // await fast2sms.sendMessage(options);
-    if (res) {
+  // async function sendOtpMessage() {
+    var response = true; // await fast2sms.sendMessage(options);
+    if (response) {
       // console.log("succes",res);
       User.findOneAndUpdate(
         { email: userEmail },
@@ -59,20 +59,32 @@ module.exports.sendOtpMessage = (req, res) => {
           }, 1000);
         }
       );
+      return res.status(200).json({
+        message: "OTP Send  Successfully",
+        success: true,
+      });
     } else {
+
       console.log("balance over");
+      return res.status(201).json({
+        message: "balance over",
+        success: false,
+      });
     }
-  }
-  sendOtpMessage();
+  // }
+  // sendOtpMessage();
 };
 
-module.exports.verifyOtp = (req, res) => {
+module.exports.verifyOtp = async (req, res) => {
   var obj = JSON.parse(req.params.obj);
   var mobileNumber = obj.mobileNumber;
   var otp = obj.otp;
-  var useEmail = req.user.email;
+  var useEmail = req.params.email;
 
-  if (otp == req.user.mobileOtp) {
+  
+  var user = await User.findOne({ email : useEmail });
+
+  if (otp == user.mobileOtp) {
     User.findOneAndUpdate(
       { email: useEmail },
       { mobile: mobileNumber, mobileOtp: "" },
@@ -84,13 +96,17 @@ module.exports.verifyOtp = (req, res) => {
         user.save();
       }
     );
-    req.flash("success", "Verify Number Successfully");
-    console.log("mobile number verified");
-    return res.redirect("/users/profile");
+    return res.status(200).json({
+      message: "mobile number verified  Successfully",
+      success: true,
+    });
+   
   } else {
     User.findOneAndUpdate({ email: useEmail }, function (err, user) {});
-    req.flash("error", "OTP Invalid");
-    console.log("OTP Invalid");
-    return res.redirect("/users/mobile_auth/verify_mobile");
+
+    return res.status(201).json({
+      message: "OTP Invalid",
+      success: false,
+    });
   }
 };

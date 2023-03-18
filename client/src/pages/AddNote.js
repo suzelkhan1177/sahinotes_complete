@@ -32,7 +32,6 @@ function AddNote() {
           name="about"
           placeholder="Your About"
         ></input>
-        {/* <button onClick={(e) => upload(e)}>Submit</button> */}
 
         <button onClick={()=>{api.uploadNotes(file, name, about, user.id);}}>Upload</button>
       </form>

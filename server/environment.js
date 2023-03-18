@@ -8,6 +8,7 @@ const development = {
     API_KEY_MOBILE:  "iI29zBShf0RrV7gPQdTEH8vnGKjkbZuLtWXsYyUDwaAq64eCcmgLKvU3W9C47NxPkDamJ0MblFV2cE5u",
     SECRET_NAME: 'sahinotes',
     SECRET_PASS: 'suzelkhan',
+    HOST: "http://localhost:3000"
     
 }
 

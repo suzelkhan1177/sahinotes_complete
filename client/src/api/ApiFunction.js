@@ -9,14 +9,62 @@ export const ApiFunction = () => {
   const api = ApiUrl();
   const navigate = useNavigate();
 
-
-   // Delete Notes
-   const delete_note = async (note_file) => {
+  // update_password   Function
+  const update_password = async (password, confirm_password, accessToken) => {
+    console.log(password," ", confirm_password, accessToken);
     try {
+      const res = await axios.post(api.update_password(), {
+        password: password,
+        confirm_password: confirm_password,
+        accessToken: accessToken
+      });
+       
+      if (res.data.success === true) {
+        navigate("/signin");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-      await axios.delete( api.deleteNotes(note_file));
+
+
+  // forget_password  Otp Function
+  const forget_password = async (email) => {
+    console.log(email);
+    try {
+      const res = await axios.post(api.forget_password(), {
+        email: email,
+      });
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // verify Otp Function
+  const verify_otp = async (email, obj) => {
+    try {
+      await axios.get(api.verifyOtp(email, obj));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // Send Otp Function
+  const send_otp = async (email, mobile_number) => {
+    try {
+      await axios.get(api.sendOtp(email, mobile_number));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // Delete Notes
+  const delete_note = async (note_file) => {
+    try {
+      await axios.delete(api.deleteNotes(note_file));
       navigate("/users/profile");
-  
     } catch (e) {
       console.log(e);
     }
@@ -137,7 +185,11 @@ export const ApiFunction = () => {
     uploadNotes,
     viewNotes,
     authentication,
-    delete_note
+    delete_note,
+    send_otp,
+    verify_otp,
+    forget_password,
+    update_password 
   };
 };
 

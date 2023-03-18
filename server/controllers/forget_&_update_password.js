@@ -1,82 +1,102 @@
 const User = require("../models/users");
-const bcryptjs = require('bcryptjs');
-const forgetPasswordMailer = require('../mailers/forget_password_mailer');
-
+const bcryptjs = require("bcryptjs");
+const forgetPasswordMailer = require("../mailers/forget_password_mailer");
+const env = require("../environment");
 
 module.exports.forgetPassword = (req, res) => {
-    res.render("forget_password");
-  };
-  
-  module.exports.updatePassword = (req, res) => {
-    res.render("update_password");
-  };
+  res.render("forget_password");
+};
 
-
+module.exports.updatePassword = (req, res) => {
+  res.render("update_password");
+};
 
 module.exports.forget_password_post = (req, res) => {
+  var HOST = env.HOST;
+  var email = req.body.email;
+  var token = Math.floor(Math.random() * 9000) + 1000;
+  var accessToken = email + token;
 
-    var email = req.body.email;
-    var token = Math.floor(Math.random() * 9000) + 1000;
-    var accessToken = email + token;
-    User.findOneAndUpdate({email: email}, {accessToken: accessToken}, function(err, user) {
-     if (err) {console.log('Error find User in forget Password: ', err); return;}
-     if(!user) {
-         console.log('User not Found');
-         req.flash('error', 'Email Id Not Registered');
-         return res.redirect('/users/forget_password');
+  console.log(email);
+  User.findOneAndUpdate(
+    { email: email },
+    { accessToken: accessToken },
+    function (err, user) {
+      if (err) {
+        console.log("Error find User in forget Password: ", err);
+        return;
+      }
+      if (!user) {
+        console.log("User not Found");
+        return res.status(201).json({
+          message: "Email Id Not Registered",
+          success: false,
+        });
+      } else {
+        user.save();
+        var obj = {};
+        obj.email = user.email;
+        obj.url = `${HOST}/update_password?accessToken=${accessToken}`;
+        forgetPasswordMailer.forgetPassword(obj);
 
-     }else{
-       user.save();
-       var obj = {};
-       obj.email = user.email;
-       obj.url = `http://localhost:8000/users/forget_&_update_password/update_password?accessToken=${accessToken}`
-      forgetPasswordMailer.forgetPassword(obj);
-       req.flash('success', 'Mail Send Successfully');
-       return res.redirect('/users/signin');
-     }
- });
-}
+        return res.status(200).json({
+          message: "Mail Send  Successfully",
+          success: true,
+        });
+      }
+    }
+  );
+};
 
 module.exports.update_password_post = (req, res) => {
+  var password = req.body.password;
+  var confirm_password = req.body.confirm_password;
+  var accessToken = req.body.accessToken;
+  console.log(password, confirm_password, accessToken);
 
- var password = req.body.password;
- var confirm_password = req.body.confirm_password;
- var accessToken = req.body.accessToken;
- console.log(password, confirm_password, accessToken);
+  if (password != confirm_password) {
+    console.log("passwords dont match");
+    return res.status(201).json({
+      message: "Password or Confirm Password Not Match",
+      success: false,
+    });
+   
+  } else {
+    var email = accessToken.substring(0, accessToken.length - 4);
+    console.log(email);
 
- if (password!=confirm_password) {
+    User.findOne({ email: email }, function (err, user) {
+      if (err) {
+        console.log("Error in finding user: ", err);
+        return;
+      }
 
-   req.flash('error', 'Password or Confirm Password Not Match');
-   console.log('passwords dont match');
-   return res.redirect('back');
-} else {
+      if (accessToken == user.accessToken) {
+        bcryptjs.genSalt(12, (err, salt) => {
+          if (err) throw err;
+          // hash the password
+          bcryptjs.hash(password, salt, (err, hash) => {
+            if (err) throw err;
 
-
-var email = accessToken.substring(0, accessToken.length-4);
-console.log(email);
-
-User.findOne({email: email}, function(err, user) {
- if (err) {console.log('Error in finding user: ', err); return;}
-    
-     if(accessToken == user.accessToken){
-       bcryptjs.genSalt(12, (err, salt) => {
-         if (err) throw err;
-         // hash the password
-         bcryptjs.hash(password, salt, (err, hash) => {
-             if (err) throw err;
-       
-         User.findOneAndUpdate({email: email}, {password: hash, accessToken: null}, function(err, user) {
-           if (err) {console.log('Error in finding user: ', err); return;}
-           user.save();
-       });
- 
+            User.findOneAndUpdate(
+              { email: email },
+              { password: hash, accessToken: null },
+              function (err, user) {
+                if (err) {
+                  console.log("Error in finding user: ", err);
+                  return;
+                }
+                user.save();
+              }
+            );
           });
-     });
- 
-     }
-});
-req.flash('success', 'Update Password Successfully');
-   return res.redirect('/users/signin');
-}
+        });
+      }
+    });
 
-}
+    return res.status(200).json({
+      message: "Update Password  Successfully",
+      success: true,
+    });
+  }
+};

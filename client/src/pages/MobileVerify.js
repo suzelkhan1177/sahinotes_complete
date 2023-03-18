@@ -1,9 +1,52 @@
-import React from 'react'
+import { useState, useContext } from "react";
+import ApiFunction from "../api/ApiFunction";
+import AuthContext from "../context/notes/AuthContext";
 
 const MobileVerify = () => {
-  return (
-    <div>MobileVerify</div>
-  )
-}
+  const { user } = useContext(AuthContext);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const api = ApiFunction();
 
-export default MobileVerify
+  var obj = {};
+  obj.otp = otp;
+  obj.mobileNumber = mobileNumber;
+
+  return (
+    <>
+      <h1>MobileVerify </h1>
+      <form onSubmit={(event) => event.preventDefault()}>
+        <input
+          onChange={(e) => setMobileNumber(e.target.value)}
+          type="text"
+          name="mobile"
+          placeholder="Enter Your Mobile Number"
+        ></input>
+
+        <button
+          onClick={() => {
+            api.send_otp(user.email, mobileNumber);
+          }}
+        >
+          Send OTP
+        </button>
+
+        <input
+          onChange={(e) => setOtp(e.target.value)}
+          type="password"
+          name="otp" id="otp" placeholder="Enter OTP"
+        ></input>
+
+        <button
+          onClick={() => {
+            api.verify_otp(user.email, obj);
+          }}
+        >
+          Verify OTP
+        </button>
+      </form>
+    </>
+  );
+};
+
+export default MobileVerify;
