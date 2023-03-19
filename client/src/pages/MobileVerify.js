@@ -25,7 +25,7 @@ const MobileVerify = () => {
 
         <button
           onClick={() => {
-            api.send_otp(user.email, mobileNumber);
+            api.send_otp(user.id, mobileNumber);
           }}
         >
           Send OTP
@@ -39,7 +39,7 @@ const MobileVerify = () => {
 
         <button
           onClick={() => {
-            api.verify_otp(user.email, obj);
+            api.verify_otp(user.id, obj);
           }}
         >
           Verify OTP

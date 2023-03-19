@@ -1,15 +1,26 @@
-import React from 'react';
-import ApiFunction from '../api/ApiFunction';
-
+import React from "react";
+import ApiFunction from "../api/ApiFunction";
 
 const ViewNotes = () => {
   const api = ApiFunction();
   return (
     <>
-    <h1>ViewNotes</h1>
-    <button onClick={()=>{api.viewNotes();}}>Sign In</button>
+      <h1>ViewNotes</h1>
+      <object
+      data="https://africau.edu/images/default/sample.pdf"
+        type="application/pdf"
+        width="700"
+        height="400"
+      ></object>
+      <button
+        onClick={() => {
+          api.viewNotes();
+        }}
+      >
+        Sign In
+      </button>
     </>
-  )
-}
+  );
+};
 
-export default ViewNotes
+export default ViewNotes;

@@ -17,96 +17,70 @@ module.exports.verifyMobile = (req, res) => {
   }
 };
 
-module.exports.sendOtpMessage = (req, res) => {
-  // send the otp message
-  const mobilenumber = req.params.mobileNumber;
-  const userEmail = req.params.email;
+module.exports.sendotpMessage = async (req, res) => {
+  const user_id = req.params.user_id;
+  const mobile_number = req.params.mobile_number;
+  var otp = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+
   API_KEY = env.API_KEY_MOBILE;
-
-  const OTP = Math.floor(Math.random() * 9000) + 1000;
-
   var options = {
     authorization: API_KEY,
-    message: `Your SahiNotes Application One Time OTP is  ${OTP}.  Created By Suzel`,
-    numbers: [mobilenumber],
+    message: `Your SahiNotes Application One Time OTP is  ${otp}.  Created By Suzel`,
+    numbers: [mobile_number],
   };
-
-  // async function sendOtpMessage() {
-    var response = true; // await fast2sms.sendMessage(options);
-    if (response) {
-      // console.log("succes",res);
-      User.findOneAndUpdate(
-        { email: userEmail },
-        { mobileOtp: OTP },
-        function (err, user) {
-          if (err) {
-            console.log("Error in saving otp: ", err);
-            return;
-          }
-          user.save();
-          var id = setTimeout(function (OTP) {
-            User.findOne({ email: userEmail }, function (err, user) {
-              if (err) {
-                return;
-              }
-              if (user.mobileOtp == OTP) {
-                User.findOneAndUpdate(
-                  { email: userEmail, mobileOtp: "" },
-                  function (err, user) {}
-                );
-              }
-            });
-          }, 1000);
-        }
-      );
+  var output = true;  // await fast2sms.sendMessage(options);
+  if (output) {
+      User.findById(user_id, async function(err, user) {
+          if (err) {console.log('Error in finding user in send otp: ', err); return;}
+          user.mobile_otp = otp;
+          user.temp_mobile = mobile_number;
+          await user.save();
+          temp_user = user;
+          setTimeout(async function deleteotp() {
+              temp_user.mobile_otp = "";
+              temp_user.temp_mobile = "";
+              await temp_user.save();
+          }, 15 * 60 *1000);
+      })
+      console.log("sent otp successfully");
       return res.status(200).json({
         message: "OTP Send  Successfully",
         success: true,
       });
-    } else {
-
-      console.log("balance over");
+  } else {
+      console.log("Error in sending sms");
       return res.status(201).json({
         message: "balance over",
         success: false,
       });
-    }
-  // }
-  // sendOtpMessage();
+  }
 };
 
-module.exports.verifyOtp = async (req, res) => {
+module.exports.verifyotp = async (req, res) => {
   var obj = JSON.parse(req.params.obj);
-  var mobileNumber = obj.mobileNumber;
+  var mobile_number = obj.mobile_number;
   var otp = obj.otp;
-  var useEmail = req.params.email;
+  var user_id = req.params.user_id;
 
-  
-  var user = await User.findOne({ email : useEmail });
+  User.findById(user_id, async function(err, user) {
+      if (err) {console.log('Error in finding user in validateOtp: ', err); return;}
+      if (otp==user.mobile_otp) {
+          user.mobile = user.temp_mobile;
+          user.mobile_otp = "";
+          user.temp_mobile = "";
+          await user.save();
 
-  if (otp == user.mobileOtp) {
-    User.findOneAndUpdate(
-      { email: useEmail },
-      { mobile: mobileNumber, mobileOtp: "" },
-      function (err, user) {
-        if (err) {
-          console.log("Error in verifying otp: ", err);
-          return;
-        }
-        user.save();
+          return res.status(200).json({
+            message: "mobile number verified  Successfully",
+            success: true,
+          });
+
+      } else {
+        return res.status(201).json({
+          message: "otp Invalid",
+          success: false,
+        });
+
       }
-    );
-    return res.status(200).json({
-      message: "mobile number verified  Successfully",
-      success: true,
-    });
-   
-  } else {
-    User.findOneAndUpdate({ email: useEmail }, function (err, user) {});
-
-    return res.status(201).json({
-      message: "OTP Invalid",
-      success: false,
-    });
-  }
+  }); 
 };

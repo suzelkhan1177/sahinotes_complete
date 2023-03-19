@@ -5,20 +5,20 @@ import ApiUrl from "./ApiUrl";
 import { useNavigate } from "react-router-dom";
 
 export const ApiFunction = () => {
-  const { setUser, setNotes } = useContext(AuthContext);
+  const { setUser, setNotes, setGetUser, user } = useContext(AuthContext);
   const api = ApiUrl();
   const navigate = useNavigate();
 
   // update_password   Function
   const update_password = async (password, confirm_password, accessToken) => {
-    console.log(password," ", confirm_password, accessToken);
+    console.log(password, " ", confirm_password, accessToken);
     try {
       const res = await axios.post(api.update_password(), {
         password: password,
         confirm_password: confirm_password,
-        accessToken: accessToken
+        accessToken: accessToken,
       });
-       
+
       if (res.data.success === true) {
         navigate("/signin");
       }
@@ -26,8 +26,6 @@ export const ApiFunction = () => {
       console.log(e);
     }
   };
-
-
 
   // forget_password  Otp Function
   const forget_password = async (email) => {
@@ -43,18 +41,18 @@ export const ApiFunction = () => {
   };
 
   // verify Otp Function
-  const verify_otp = async (email, obj) => {
+  const verify_otp = async (id, obj) => {
     try {
-      await axios.get(api.verifyOtp(email, obj));
+      await axios.get(api.verifyOtp(id, obj));
     } catch (e) {
       console.log(e);
     }
   };
 
   // Send Otp Function
-  const send_otp = async (email, mobile_number) => {
+  const send_otp = async (id, mobile_number) => {
     try {
-      await axios.get(api.sendOtp(email, mobile_number));
+      await axios.get(api.sendOtp(id, mobile_number));
     } catch (e) {
       console.log(e);
     }
@@ -136,8 +134,14 @@ export const ApiFunction = () => {
       });
 
       if (res.data.success === true) {
-        setUser(res.data);
-        getNotes(res.data.id);
+      
+        var userDetails = res.data.user;
+        console.log(res.data.user);
+        setUser(userDetails);
+        getNotes(res.data.user.id);
+        get_all_users(res.data.user.id);
+        window.localStorage.setItem("user", JSON.stringify(userDetails));
+
         navigate("/users/profile");
       }
     } catch (e) {
@@ -150,20 +154,41 @@ export const ApiFunction = () => {
     var res = await axios.get(api.logout());
     if (res.data.success === true) {
       setUser(undefined);
+      window.localStorage.removeItem('user');
       navigate("/signin");
     }
   };
 
+  //get_all_users  Function
+  const get_all_users = async (id) => {
+    try {
+      var res = await axios.get(api.getAllUsers(id));
+      if (res.data.success === true) {
+        // console.log(res.data.output);
+        setGetUser(res.data.output);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   //Authentication  Function
-  const authentication = async (id) => {
-    console.log("Auth Function");
-    var res = await axios.get(api.authentication(id));
-    console.log(res);
-    // if(res.data.success === true){
-    // setUser(undefined);
-    // navigate("/signin");
-    // console.log(res);
-    // }
+  const authentication = async () => {
+    if (user.id===undefined && JSON.parse(window.localStorage.getItem('user')).id===undefined) {
+      console.log(user);
+      navigate('/signin');
+  } else {
+      var user_id = user.id ? user.id : JSON.parse(window.localStorage.getItem('user')).id;
+      var res = await axios.get(`http://localhost:8000/users/check_authentication/${user_id}`);
+      if (res.data.success===true) {
+        var userDetails = res.data.user;
+        console.log(res.data.user);
+        setUser(userDetails);
+          console.log(user);
+          // console.log("inside if=>"+ userDetails);
+          window.localStorage.setItem('user', JSON.stringify(userDetails));
+      }
+  }
   };
 
   //Get ALL  User Notes
@@ -189,7 +214,8 @@ export const ApiFunction = () => {
     send_otp,
     verify_otp,
     forget_password,
-    update_password 
+    update_password,
+    get_all_users,
   };
 };
 

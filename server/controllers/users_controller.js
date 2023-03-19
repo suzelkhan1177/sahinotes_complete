@@ -1,4 +1,5 @@
 const User = require("../models/users");
+const Session = require("../models/session");
 const bcryptjs = require("bcryptjs");
 const accountCreatedMailer = require("../mailers/account_created_mailer");
 const queue = require("../workers/account_created_mailer");
@@ -143,16 +144,25 @@ module.exports.create = (req, res) => {
   });
 };
 
-module.exports.createSession = (req, res) => {
+module.exports.createSession = async (req, res) => {
   var id = req.user._id;
   var name = req.user.name;
   var email = req.user.email;
+  var currentDate = new Date();
+  var expiryDate = currentDate.setHours(currentDate.getHours() + 24);
+  expiryDate = new Date(expiryDate);
+  var session = await Session.create({
+    user: id,
+    expires: expiryDate,
+  });
   return res.status(200).json({
     success: true,
     status: "Login Successfully ",
-    id: id,
-    name: name,
-    email: email,
+    user: {
+      id: id,
+      name: name,
+      email: email,
+    },
   });
 };
 
@@ -247,14 +257,19 @@ module.exports.deleteNotes = async (req, res) => {
 };
 
 module.exports.getAllUsers = async (req, res) => {
-  if (req.isAuthenticated()) {
+  console.log(req.params.id);
+  if (req.params.id !== undefined) {
     var users = await User.find();
     var output = [];
     for (let i = 0; i < users.length; i++) {
       output.push({ id: users[i]._id, name: users[i].name });
     }
 
-    return res.status(200).json(output);
+    return res.status(200).json({
+      message: "Get All User Successfully",
+      success: true,
+      output,
+    });
   } else {
     return res.status(400).json({
       message: "User Already LogOut",
@@ -263,17 +278,37 @@ module.exports.getAllUsers = async (req, res) => {
   }
 };
 
-module.exports.checkAuthentication = (req, res) => {
-  consoloe.log(req.params.id);
-  if (req.isAuthenticated()) {
-    res.status(200).json({
-      message: "user is logged in",
-      success: true,
-    });
+module.exports.checkAuthentication = async (req, res) => {
+  var id = req.params.id;
+  var session = await Session.findOne({ user: id });
+  var expiryDate = session.expires;
+  var currentDate = new Date();
+
+  if (currentDate > expiryDate) {
+    res
+      .status(201)
+      .json({
+        message: "session expires",
+        success: false,
+        id: undefined,
+        name: undefined,
+      });
   } else {
-    return res.status(201).json({
-      message: "User is already  logged out",
-      success: false,
+    var user = await User.findById(id);
+    var currentDate = new Date();
+    var expiryDate = currentDate.setHours(currentDate.getHours() + 24);
+    expiryDate = new Date(expiryDate);
+    session.expires = expiryDate;
+    await session.save();
+
+    return res.status(200).json({
+      message: "User is Already Login",
+      success: true,
+      user: {
+        id: id,
+        name: user.name,
+        email: user.email,
+      },
     });
   }
 };

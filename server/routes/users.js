@@ -15,6 +15,7 @@ router.post("/create", usersController.create);
 router.post(
   "/create_session",
   passport.authenticate("local", {
+    session: false,
     failureRedirect: "/users/signin",
     failureFlash: "Login not successful Please check email id and Password",
   }),
@@ -41,6 +42,6 @@ router.get(
 router.get("/check_authentication/:id", usersController.checkAuthentication);
 router.delete("/delete_note/:note_file", usersController.deleteNotes);
 
-router.get("/get_all_users", passport.checkAuthentication, usersController.getAllUsers);
+router.get("/get_all_users/:id", passport.checkAuthentication, usersController.getAllUsers);
 
 module.exports = router;

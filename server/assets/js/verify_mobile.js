@@ -1,6 +1,6 @@
 var sendOtpButton = document.getElementById("sendOtpButton");
 var mobileNumber = document.getElementById("mobileNumber");
-var email = document.getElementById("email").innerHTML;
+var user_id = document.getElementById("user_id").innerHTML;
 
 sendOtpButton.addEventListener("click", function (e) {
   new Noty({
@@ -13,7 +13,7 @@ sendOtpButton.addEventListener("click", function (e) {
 
   //call a GET API
   e.preventDefault();
-  fetch(`/users/mobile_auth/send_otp_message/${email}/${mobileNumber.value}`);
+  fetch(`/users/mobile_auth/send_otp_message/${user_id}/${mobileNumber.value}`);
   console.log("otp sent");
 });
 
@@ -26,6 +26,6 @@ verify.addEventListener("click", function (e) {
   obj.mobileNumber = mobileNumber.value;
 
   //   convert object to text so that you can send it in a url
-  fetch(`/users/mobile_auth/verify_otp/${email}/${JSON.stringify(obj)}`);
+  fetch(`/users/mobile_auth/verify_otp/${user_id}/${JSON.stringify(obj)}`);
   window.location = "/users/mobile_auth/verify_mobile";
 });

@@ -4,7 +4,8 @@ const ApiUrl = () => {
   const signin = () => {  return `${HOST}/users/create_session`;};
   const signup = () => {  return `${HOST}/users/create`;};
   const logout = () => {  return `${HOST}/users/logout`;  };
-  const authentication = (id) => {  return `${HOST}/users/check_authentication/:${id}`;  };
+  const authentication = (id) => {  return `${HOST}/users/check_authentication/${id}`;};
+  const getAllUsers = (id) => {  return `${HOST}/users/get_all_users/${id}`;};
   const  getNotes = (id) => { return `${HOST}/users/notes/show_all_notes/${id}`};
   const  showSingleNotes = (id) => { return `${HOST}/users/notes/show_single_notes/63faffb652bc64a29dfcb3fb/JavaScript Chapter 1 - Variables and Data1677393875871.pdf`};
   const  uploadNotes = () => { return `${HOST}/users/notes/upload_notes`};
@@ -27,7 +28,8 @@ const ApiUrl = () => {
     sendOtp,
     verifyOtp,
     forget_password,
-    update_password
+    update_password,
+    getAllUsers
   };
 };
 

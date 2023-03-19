@@ -7,6 +7,7 @@ import Signup from "./Signup";
 import Profile from "./Profile";
 import UpdatePassword from "./UpdatePassword";
 import ViewNotes from "./ViewNotes";
+import Users from "./Users";
 
 export {
   Home,
@@ -17,5 +18,6 @@ export {
   Signup,
   Profile,
   UpdatePassword,
-  ViewNotes
+  ViewNotes,
+  Users
 };
