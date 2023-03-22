@@ -51,31 +51,31 @@ module.exports.showAllNotes = (req, res) => {
 
 module.exports.showSingleNotes = async (req, res) => {
   if (req.params.user_id !== undefined) {
-    //  var userId = req.params.user_id;
-    //   var user = await User.findById(userId);
+    var userId = req.params.user_id;
+    var user = await User.findById(userId);
     var file = req.params.x;
-    var data = fs.readFileSync(__dirname + "/../assets/uploads/notes/" + file);
-    console.log(data);
-    //   var note = await Note.findOne({ file: file });
-    //   var id = note._id;
-    //   var note_user =  await User.findById(note.user);
-    //   var note_user_name = note_user.name;
-    //   if (!user.viewedNotes.includes(note._id)) {
-    //     user.viewedNotes.push(note._id);
-    //     note.views.push(userId);
-    //     note.save();
-    //     user.save();
-    //   }
+    fs.readFileSync(__dirname + "/../assets/uploads/notes/" + file);
+
+    var note = await Note.findOne({ file: file });
+    var id = note._id;
+    var note_name = note.name;
+    var note_user = await User.findById(note.user);
+    var note_user_name = note_user.name;
+    if (!user.viewedNotes.includes(note._id)) {
+      user.viewedNotes.push(note._id);
+      note.views.push(userId);
+      note.save();
+      user.save();
+    }
 
     return res.status(200).json({
       status: "Show Note Successfully ",
       success: true,
-      contentType: "application/pdf",
-      send: data,
-      // id: id,
-      // file: file,
-      // note_user : note.user,
-      // name: note_user_name
+      id: id,
+      file: file,
+      note_name : note_name,
+      note_user: note.user,
+      name: note_user_name,
     });
   } else {
     return res.status(201).json({

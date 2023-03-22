@@ -7,7 +7,7 @@ const ApiUrl = () => {
   const authentication = (id) => {  return `${HOST}/users/check_authentication/${id}`;};
   const getAllUsers = (id) => {  return `${HOST}/users/get_all_users/${id}`;};
   const  getNotes = (id) => { return `${HOST}/users/notes/show_all_notes/${id}`};
-  const  showSingleNotes = (id) => { return `${HOST}/users/notes/show_single_notes/63faffb652bc64a29dfcb3fb/JavaScript Chapter 1 - Variables and Data1677393875871.pdf`};
+  const  showSingleNotes = (user_id, file) => { return `${HOST}/users/notes/show_single_notes/${user_id}/${file}`};
   const  uploadNotes = () => { return `${HOST}/users/notes/upload_notes`};
   const  deleteNotes = (note_file) => { return `${HOST}/users/delete_note/${note_file}`};
   const  sendOtp = (email, mobile_number) => { return `${HOST}/users/mobile_auth/send_otp_message/${email}/${mobile_number}`};

@@ -1,54 +1,82 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import ApiFunction from '../api/ApiFunction';
+import React, { useContext } from "react";
+import "../assets/css/navbar.css";
+import { Link } from "react-router-dom";
+import AuthContext from "../context/notes/AuthContext";
+import ApiFunction from "../api/ApiFunction";
 
+// import { FaBars } from "react-icons/fa";
+// import { ImCross } from "react-icons/im";
 
 const Navbar = () => {
+
+  const {user} = useContext(AuthContext);
   const api = ApiFunction();
+
+  let comp;
+
+  if (user) {
+    comp = <h4>{user.name}</h4>
+  } else {
+    comp = ''
+  }
+
   return (
     <>
- <nav className ="navbar navbar-expand-lg navbar-light bg-light">
-  <button className ="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-    <span className ="navbar-toggler-icon"></span>
-  </button>
-  <div className ="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <ul className ="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li className ="nav-item active">
-        <Link className ="nav-link" to="/">Home</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/signin">/signin</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/signup">Signup</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/users/profile">Profile</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/forget_password">/forget_password</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/update_password">/update_password</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/users/upload_notes">upload_notes</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/users/mobile_verify">/mobile_verify</Link>
-      </li>
-      <li className ="nav-item">
-        <Link className ="nav-link" to="/users/view_notes">/view_notes</Link>
-      </li>
-      
-      <button onClick={ () => { api.logout(); }}>LogOut</button>
+    <nav>
+  <div className="container main-nav flex">
+    <div>
+      <Link to="/" className="company-logo">
+        <img src={require('../assets/images/favicon.ico')} alt="company logo" />
+        <span style={{ fontSize: 25 }}>SahiNotes</span>
+      </Link>
+    </div>
 
-    </ul>
+   
+    <div className="nav-links" id="nav-links">
+      <ul className="flex">
+
+        <li>
+          <Link to="/users/profile" className="hover-link">
+            {comp}
+           
+          </Link>
+        </li>
+        <li>
+          <Link to="/users/upload_notes" className="hover-link">
+            Upload_Note
+          </Link>
+        </li>
+        <li>
+          <Link to="/users/mobile_verify" className="hover-link">
+            Verify_Mobile
+          </Link>
+        </li>
+        <li>
+          <Link to="/users/logout" onClick={()=>{api.logout();}} className="hover-link">
+            LogOut
+          </Link>
+        </li>
+
+        
+        <li>
+          <Link to="/signin" className="hover-link secondary-button">
+           LogIn
+          </Link>
+        </li>
+        <li>
+          <Link to="/signup" className="hover-link primary-button">
+            SignUp
+          </Link>
+        </li>
+        
+      </ul>
+    </div>
+
+
   </div>
 </nav>
-
+      
     </>
-  )
-}
-
+  );
+};
 export default Navbar;

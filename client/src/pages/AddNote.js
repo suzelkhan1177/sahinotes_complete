@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ApiFunction from '../api/ApiFunction';
 import AuthContext from '../context/notes/AuthContext';
 
@@ -8,6 +8,12 @@ function AddNote() {
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const api = ApiFunction();
+
+  useEffect( () => {
+
+    api.authentication();
+
+}, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

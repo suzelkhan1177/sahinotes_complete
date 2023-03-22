@@ -42,7 +42,6 @@ module.exports.sendotpMessage = async (req, res) => {
               await temp_user.save();
           }, 15 * 60 *1000);
       })
-      console.log("sent otp successfully");
       return res.status(200).json({
         message: "OTP Send  Successfully",
         success: true,

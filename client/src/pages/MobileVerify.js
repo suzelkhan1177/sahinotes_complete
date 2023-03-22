@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ApiFunction from "../api/ApiFunction";
 import AuthContext from "../context/notes/AuthContext";
 
@@ -11,6 +11,11 @@ const MobileVerify = () => {
   var obj = {};
   obj.otp = otp;
   obj.mobileNumber = mobileNumber;
+
+  useEffect( () => {
+
+    api.authentication();
+}, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

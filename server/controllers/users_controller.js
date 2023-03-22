@@ -257,7 +257,6 @@ module.exports.deleteNotes = async (req, res) => {
 };
 
 module.exports.getAllUsers = async (req, res) => {
-  console.log(req.params.id);
   if (req.params.id !== undefined) {
     var users = await User.find();
     var output = [];

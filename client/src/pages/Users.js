@@ -9,9 +9,7 @@ const Users = () => {
     <>
       <h1>User</h1>
       <div className="row my-3">
-        {/* { (getUser !== undefined)
-          ? ""
-          : getUser.map((user) => <h2 key={user.id}>{user.name}</h2>)} */}
+        {/* { getUser.map((user) => <h2 key={user.id}>{user.name}</h2>)} */}
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import ApiUrl from "./ApiUrl";
 import { useNavigate } from "react-router-dom";
 
 export const ApiFunction = () => {
-  const { setUser, setNotes, setGetUser, user } = useContext(AuthContext);
+  const { setUser, setNotes, setGetUser, user, setViewNote } = useContext(AuthContext);
   const api = ApiUrl();
   const navigate = useNavigate();
 
@@ -69,19 +69,12 @@ export const ApiFunction = () => {
   };
 
   //View Single Notes
-  const viewNotes = async (id) => {
-    console.log(id);
+  const viewNotes = async (file) => {
     try {
-      var res = await axios.get(api.showSingleNotes(), {
-        responseType: "arraybuffer",
-        headers: {
-          Accept: "application/pdf",
-        },
-      });
+      var res = await axios.get(api.showSingleNotes(user.id, file));
 
       if (res.data.success) {
-        // setViewNote(res.data);
-        console.log(res.data);
+        setViewNote(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -118,7 +111,9 @@ export const ApiFunction = () => {
         confirm_password: confirm_password,
         withCredentials: true,
       });
-      console.log(res);
+      if (res.data.success === true) {
+        navigate("/signin");
+      }
     } catch (e) {
       console.log(e);
     }
@@ -181,12 +176,11 @@ export const ApiFunction = () => {
       var user_id = user.id ? user.id : JSON.parse(window.localStorage.getItem('user')).id;
       var res = await axios.get(`http://localhost:8000/users/check_authentication/${user_id}`);
       if (res.data.success===true) {
-        var userDetails = res.data.user;
-        console.log(res.data.user);
-        setUser(userDetails);
-          console.log(user);
-          // console.log("inside if=>"+ userDetails);
-          window.localStorage.setItem('user', JSON.stringify(userDetails));
+        var auth = res.data.user;
+        setUser(auth);   
+        getNotes(auth.id);
+        get_all_users(auth.id);
+       window.localStorage.setItem('user', JSON.stringify(auth));
       }
   }
   };
