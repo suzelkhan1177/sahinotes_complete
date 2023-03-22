@@ -6,13 +6,13 @@ const NoteItem = (props) => {
   const { note } = props;
   const api = ApiFunction();
 
+
   return (
     <>
       <div className="col-md-3 mx-3">
         <Link
           to="/users/view_notes"
           state={{ file: note.file }}
-          onClick={() => api.viewNotes(note.file)}
         >
           <div className="card">
             <div className="card-body">

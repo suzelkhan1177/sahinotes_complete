@@ -6,11 +6,13 @@ const AuthState = (props) => {
   const [notes, setNotes] = useState(notesInitial);
 
   const [veiw_note, setViewNote] = useState({
-    note_name : undefined,
+    note_name: undefined,
     name: undefined,
     file: undefined,
+    likes: undefined,
+    views: undefined,
   });
-  
+
   const [getUser, setGetUser] = useState({
     id: undefined,
     name: undefined,

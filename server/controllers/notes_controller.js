@@ -19,7 +19,7 @@ module.exports.uploadNotesPage = (req, res) => {
 module.exports.showAllNotes = (req, res) => {
   var id = req.params.profile_id;
 
-  if (id === "undefined") {
+  if (id === undefined) {
     return res.status(201).json({
       message: "Notes Not Access Beacuse User Logout",
       success: false,

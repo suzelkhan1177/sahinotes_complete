@@ -14,9 +14,15 @@ const ApiUrl = () => {
   const  verifyOtp = (email, obj) => { return `${HOST}/users/mobile_auth/verify_otp/${email}/${JSON.stringify(obj)}`};
   const  forget_password = () => { return `${HOST}/users/forget_&_update_password/forget_password`};
   const  update_password = () => { return `${HOST}/users/forget_&_update_password/update_password`};
-
+  const like = (user_id, file) => {  return `${HOST}/users/toggle/like_notes/${user_id}/${file}`;};
+  const dislike = (user_id, file) => {  return `${HOST}/users/toggle/dislike_notes/${user_id}/${file}`;};
+  const getlike = (user_id, file) => {  return `${HOST}/users/toggle/get_number_of_likes/${user_id}/${file}`;};
+  const physical_note = (file) => {  return `${HOST}/uploads/notes/${file}`;};
 
   return {
+    like,
+    dislike,
+    getlike,
     signup,
     signin,
     logout,
@@ -29,7 +35,8 @@ const ApiUrl = () => {
     verifyOtp,
     forget_password,
     update_password,
-    getAllUsers
+    getAllUsers,
+    physical_note
   };
 };
 
