@@ -61,8 +61,14 @@ export const ApiFunction = () => {
   // Delete Notes
   const delete_note = async (note_file) => {
     try {
-      await axios.delete(api.deleteNotes(note_file));
-      navigate("/users/profile");
+     var res =  await axios.delete(api.deleteNotes(note_file));
+       
+     if(res.data.success === true){
+      var ans = await fetch(api.getNotes(user.id));
+      const json = await ans.json();
+      setNotes(json);
+     }
+      console.log(res);
     } catch (e) {
       console.log(e);
     }
