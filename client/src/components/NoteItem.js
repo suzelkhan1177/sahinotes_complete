@@ -1,8 +1,10 @@
-import React from "react";
+import { useContext } from "react";
+import AuthContext from "../context/notes/AuthContext";
 import ApiFunction from "../api/ApiFunction";
 import { Link } from "react-router-dom";
 
 const NoteItem = (props) => {
+  const { user } = useContext(AuthContext);
   const { note } = props;
   const api = ApiFunction();
 
@@ -18,10 +20,12 @@ const NoteItem = (props) => {
               >
                 <h5 className="card-title">{note.name}</h5>
               </Link>
-              <i
-                className="fa-regular fa-trash-can mx-2"
-                onClick={() => api.delete_note(note.file)}
-              ></i>
+              {note.user === user.id ? (
+                <i
+                  className="fa-regular fa-trash-can mx-2"
+                  onClick={() => api.delete_note(note.file)}
+                ></i>
+              ) : null}
             </div>
             {/* <p className="card-text">{note.file}</p> */}
           </div>
