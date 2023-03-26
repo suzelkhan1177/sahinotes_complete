@@ -68,7 +68,6 @@ export const ApiFunction = () => {
       const json = await ans.json();
       setNotes(json);
      }
-      console.log(res);
     } catch (e) {
       console.log(e);
     }
