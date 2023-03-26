@@ -131,7 +131,6 @@ export const ApiFunction = () => {
       if (res.data.success === true) {
       
         var userDetails = res.data.user;
-        console.log(res.data.user);
         setUser(userDetails);
         getNotes(res.data.user.id);
         get_all_users(res.data.user.id);

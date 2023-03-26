@@ -18,6 +18,10 @@ const ApiUrl = () => {
   const dislike = (user_id, file) => {  return `${HOST}/users/toggle/dislike_notes/${user_id}/${file}`;};
   const getlike = (user_id, file) => {  return `${HOST}/users/toggle/get_number_of_likes/${user_id}/${file}`;};
   const physical_note = (file) => {  return `${HOST}/uploads/notes/${file}`;};
+  const add_comment = () => {  return `${HOST}/users/toggle/new_note_comment`;};
+  const get_comment = (noteId) => {  return `${HOST}/users/toggle/get_all_comments/${noteId}`;};
+  const delete_child_comment = (user_id, id) => {  return `${HOST}/users/toggle/delete_child_note_comment/${user_id}/${id}`;};
+  const delete_parent_comment = (user_id, file) => {  return `${HOST}/users/toggle/delete_note_comment/${user_id}/${file}`;};
 
   return {
     like,
@@ -36,7 +40,11 @@ const ApiUrl = () => {
     forget_password,
     update_password,
     getAllUsers,
-    physical_note
+    physical_note,
+    add_comment,
+    get_comment,
+    delete_child_comment,
+    delete_parent_comment
   };
 };
 
