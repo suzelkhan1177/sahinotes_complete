@@ -50,6 +50,7 @@ const delete_parent_comment = async (id) => {
       var ans = await axios.get(url.get_comment(noteId));
         if (ans.data.success === true) {
            setComment(ans.data.comments);
+         
         }
     }
 
@@ -181,7 +182,13 @@ const delete_parent_comment = async (id) => {
         return (
           <div key={index}>
          <h2>{comment[i].comment_user_name}
-           <i className="fa-regular fa-trash-can mx-2" onClick={() => {delete_parent_comment(i)}}></i></h2> 
+         
+         { user.id === comment[i].user ? (
+           <i className="fa-regular fa-trash-can mx-2" onClick={() =>
+             {delete_parent_comment(i)}}></i>
+             
+             ) : null}     
+         </h2> 
           <h4>{comment[i].text}</h4>
           <h2>child Comment</h2>
         <form onSubmit={(event) => event.preventDefault()}>
@@ -196,7 +203,12 @@ const delete_parent_comment = async (id) => {
       return(
         <tr>
           <h4>{JSON.parse(comment[i].child_comments[id]).comment_user_name} 
-           <i className="fa-regular fa-trash-can mx-2" onClick={() => {delete_child_comment(id)}}> </i>
+
+          { user.id === JSON.parse(comment[i].child_comments[id]).user ? (
+           <i className="fa-regular fa-trash-can mx-2"
+            onClick={() => {delete_child_comment(id)}}> </i>
+
+            ) : null} 
            </h4>
           <h5>{JSON.parse(comment[i].child_comments[id]).text}</h5>
        </tr>
