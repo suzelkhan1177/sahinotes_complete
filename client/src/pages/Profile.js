@@ -6,7 +6,6 @@ import ApiFunction from '../api/ApiFunction';
 const Profile = () => {
 
 const api = ApiFunction();
-
   useEffect( () => {
     api.authentication();
 }, []);// eslint-disable-line react-hooks/exhaustive-deps

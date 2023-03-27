@@ -18,6 +18,11 @@ const AuthState = (props) => {
     name: undefined,
   });
 
+  const [getfile, setfile] = useState({
+    id: undefined,
+    file: undefined,
+  })
+
   const [user, setUser] = useState({
     id: undefined,
     name: undefined,
@@ -35,6 +40,7 @@ const AuthState = (props) => {
         setViewNote,
         getUser,
         setGetUser,
+        getfile, setfile
       }}
     >
       {props.children}

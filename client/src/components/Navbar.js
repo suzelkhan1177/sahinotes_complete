@@ -3,7 +3,8 @@ import "../assets/css/navbar.css";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/notes/AuthContext";
 import ApiFunction from "../api/ApiFunction";
-
+import {GoogleLogout} from  'react-google-login';
+const clientId = "1011703805644-0bd3gm5uo9unqsvk3aaepqehr8nntunk.apps.googleusercontent.com";
 // import { FaBars } from "react-icons/fa";
 // import { ImCross } from "react-icons/im";
 
@@ -11,6 +12,10 @@ const Navbar = () => {
 
   const {user} = useContext(AuthContext);
   const api = ApiFunction();
+
+  const onSuccess = async (res) => {
+     api.logout();
+}
 
   let comp;
 
@@ -34,6 +39,13 @@ const Navbar = () => {
    
     <div className="nav-links" id="nav-links">
       <ul className="flex">
+
+     <GoogleLogout
+          clientId={clientId}
+          buttonText="Google LogOut"
+          onLogoutSuccess={onSuccess}
+     />
+        
 
         <li>
           <Link to="/users/profile" className="hover-link">

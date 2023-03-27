@@ -1,6 +1,7 @@
 const User = require("../models/users");
 const Session = require("../models/session");
 const bcryptjs = require("bcryptjs");
+const crypto = require('crypto');
 const accountCreatedMailer = require("../mailers/account_created_mailer");
 const queue = require("../workers/account_created_mailer");
 const Note = require("../models/notes");
@@ -151,7 +152,7 @@ module.exports.createSession = async (req, res) => {
   var currentDate = new Date();
   var expiryDate = currentDate.setHours(currentDate.getHours() + 24);
   expiryDate = new Date(expiryDate);
-  var session = await Session.create({
+   await Session.create({
     user: id,
     expires: expiryDate,
   });
@@ -311,3 +312,51 @@ module.exports.checkAuthentication = async (req, res) => {
     });
   }
 };
+
+module.exports.googleLogin = async (req, res) => {
+    console.log(req.body);
+    const email = req.body.email;
+    var user = await  User.findOne({ email: email });
+ 
+    if(user){
+      var currentDate = new Date();
+      var expiryDate = currentDate.setHours(currentDate.getHours() + 24);
+      expiryDate = new Date(expiryDate);
+       await Session.create({
+        user: user._id,
+        expires: expiryDate,
+      });
+      return res.status(200).json({
+        success: true,
+        status: "Login Successfully ",
+        user: {
+          id: user._id,
+          name: user.name,
+          email: email,
+        },
+      });
+    }else{
+       var  name = req.body.name;
+       var createUser  = await User.create({
+            name : name,
+            email: email,
+            password: crypto.randomBytes(20).toString('hex')
+       });
+       var currentDate = new Date();
+      var expiryDate = currentDate.setHours(currentDate.getHours() + 24);
+      expiryDate = new Date(expiryDate);
+       await Session.create({
+        user: createUser._id,
+        expires: expiryDate,
+      });
+      return res.status(200).json({
+        success: true,
+        status: "Login Successfully ",
+        user: {
+          id: createUser._id,
+          name: createUser.name,
+          email: email,
+        },
+      });
+    }
+}

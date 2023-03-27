@@ -5,9 +5,32 @@ import ApiUrl from "./ApiUrl";
 import { useNavigate } from "react-router-dom";
 
 export const ApiFunction = () => {
-  const { setUser, setNotes, setGetUser, user, setViewNote } = useContext(AuthContext);
+  const { setUser, setNotes, setGetUser, user, setViewNote } =
+    useContext(AuthContext);
   const api = ApiUrl();
   const navigate = useNavigate();
+
+  const onSuccessFunc = async (res) => {
+    var res = await axios.post(api.google_login(), {
+      email: res.profileObj.email,
+      name: res.profileObj.name,
+      withCredentials: true,
+    });
+
+    if (res.data.success === false) {
+      alert("Login Failed");
+    }
+
+    if (res.data.success === true) {
+      var userDetails = res.data.user;
+      setUser(userDetails);
+      getNotes(res.data.user.id);
+      get_all_users(res.data.user.id);
+      window.localStorage.setItem("user", JSON.stringify(userDetails));
+
+      navigate("/users/profile");
+    }
+  };
 
   // update_password   Function
   const update_password = async (password, confirm_password, accessToken) => {
@@ -61,13 +84,13 @@ export const ApiFunction = () => {
   // Delete Notes
   const delete_note = async (note_file) => {
     try {
-     var res =  await axios.delete(api.deleteNotes(note_file));
-       
-     if(res.data.success === true){
-      var ans = await fetch(api.getNotes(user.id));
-      const json = await ans.json();
-      setNotes(json);
-     }
+      var res = await axios.delete(api.deleteNotes(note_file));
+
+      if (res.data.success === true) {
+        var ans = await fetch(api.getNotes(user.id));
+        const json = await ans.json();
+        setNotes(json);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -134,7 +157,6 @@ export const ApiFunction = () => {
       });
 
       if (res.data.success === true) {
-      
         var userDetails = res.data.user;
         setUser(userDetails);
         getNotes(res.data.user.id);
@@ -150,11 +172,15 @@ export const ApiFunction = () => {
 
   // LogOut Function
   const logout = async () => {
-    var res = await axios.get(api.logout());
-    if (res.data.success === true) {
-      setUser(undefined);
-      window.localStorage.removeItem('user');
-      navigate("/signin");
+    try {
+      var res = await axios.get(api.logout());
+      if (res.data.success === true) {
+        setUser(undefined);
+        window.localStorage.removeItem("user");
+        navigate("/signin");
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -173,20 +199,27 @@ export const ApiFunction = () => {
 
   //Authentication  Function
   const authentication = async () => {
-    if (user.id===undefined && JSON.parse(window.localStorage.getItem('user')).id===undefined) {
+    if (
+      user.id === undefined &&
+      JSON.parse(window.localStorage.getItem("user")).id === undefined
+    ) {
       console.log(user);
-      navigate('/signin');
-  } else {
-      var user_id = user.id ? user.id : JSON.parse(window.localStorage.getItem('user')).id;
-      var res = await axios.get(`http://localhost:8000/users/check_authentication/${user_id}`);
-      if (res.data.success===true) {
+      navigate("/signin");
+    } else {
+      var user_id = user.id
+        ? user.id
+        : JSON.parse(window.localStorage.getItem("user")).id;
+      var res = await axios.get(
+        `http://localhost:8000/users/check_authentication/${user_id}`
+      );
+      if (res.data.success === true) {
         var auth = res.data.user;
-        setUser(auth);   
+        setUser(auth);
         getNotes(auth.id);
         get_all_users(auth.id);
-       window.localStorage.setItem('user', JSON.stringify(auth));
+        window.localStorage.setItem("user", JSON.stringify(auth));
       }
-  }
+    }
   };
 
   //Get ALL  User Notes
@@ -214,6 +247,7 @@ export const ApiFunction = () => {
     forget_password,
     update_password,
     get_all_users,
+    onSuccessFunc,
   };
 };
 

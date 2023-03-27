@@ -43,5 +43,5 @@ router.get("/check_authentication/:id", usersController.checkAuthentication);
 router.delete("/delete_note/:note_file", usersController.deleteNotes);
 
 router.get("/get_all_users/:id", passport.checkAuthentication, usersController.getAllUsers);
-
+router.post("/google_login", usersController.googleLogin);
 module.exports = router;

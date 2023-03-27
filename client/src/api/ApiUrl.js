@@ -2,6 +2,7 @@ const HOST = "http://localhost:8000";
 
 const ApiUrl = () => {
   const signin = () => {  return `${HOST}/users/create_session`;};
+  const google_login = () => {  return `${HOST}/users/google_login`;};
   const signup = () => {  return `${HOST}/users/create`;};
   const logout = () => {  return `${HOST}/users/logout`;  };
   const authentication = (id) => {  return `${HOST}/users/check_authentication/${id}`;};
@@ -44,7 +45,8 @@ const ApiUrl = () => {
     add_comment,
     get_comment,
     delete_child_comment,
-    delete_parent_comment
+    delete_parent_comment,
+    google_login
   };
 };
 
