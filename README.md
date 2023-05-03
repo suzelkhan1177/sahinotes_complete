@@ -2,6 +2,13 @@
 ## Description
 Host is a simple tool to upload and host your PDF online. Sharing your PDF online can be complicated.
 
+## Features
+* Google Authentication
+* Mobile Otp Verification
+* Note Comment and Child Comment
+* Like Note And Unlike Note
+* Download Friends Notes
+
 <div> 
 <h3>Project Logo</h3>
   <img src="https://user-images.githubusercontent.com/64069582/235882620-e84dad3c-973b-4a62-8b23-5f3c76160a41.jpg" width="270px" height="110px">
@@ -11,8 +18,8 @@ Host is a simple tool to upload and host your PDF online. Sharing your PDF onlin
 
 
 <h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://reactnative.dev/" target="_blank" rel="noreferrer"> <img src="https://reactnative.dev/img/header_logo.svg" alt="reactnative" width="40" height="40"/> </a> </p>
-<p align="left"> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> 
+ <a href="https://reactnative.dev/" target="_blank" rel="noreferrer"> <img src="https://reactnative.dev/img/header_logo.svg" alt="reactnative" width="40" height="40"/> </a>
+ <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/>
 </a> <a href="https://gulpjs.com" target="_blank" rel="noreferrer">
 
@@ -48,7 +55,8 @@ Host is a simple tool to upload and host your PDF online. Sharing your PDF onlin
 </div>
 
 <div> 
-  <h3>View Single Note</h3>
+  <h3>View Single Note</h3> 
+<p> Note Comment and Child Comment , Like Note And Unlike Note ,  Download Friends Notes </p>
   <img src="https://user-images.githubusercontent.com/64069582/235890406-d6157eec-a4d4-45d8-9a9b-856ca0fde5a7.png" width="370" height="230px"> 
 </div>
 
