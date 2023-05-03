@@ -10,7 +10,21 @@ export const ApiFunction = () => {
   const api = ApiUrl();
   const navigate = useNavigate();
 
+
+  const get_all_notes = async (id) => {
+    try {
+      var res = await axios.get(api.getAllNotes(id));
+      if (res.data.success === true) {
+          setNotes(res.data.output);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  //Google Login Success Hanlde
   const onSuccessFunc = async (res) => {
+    // eslint-disable-next-line
     var res = await axios.post(api.google_login(), {
       email: res.profileObj.email,
       name: res.profileObj.name,
@@ -57,7 +71,9 @@ export const ApiFunction = () => {
       const res = await axios.post(api.forget_password(), {
         email: email,
       });
-      console.log(res);
+      if (res.data.success === true) {
+        navigate("/signin");
+      }
     } catch (e) {
       console.log(e);
     }
@@ -66,7 +82,11 @@ export const ApiFunction = () => {
   // verify Otp Function
   const verify_otp = async (id, obj) => {
     try {
-      await axios.get(api.verifyOtp(id, obj));
+     var res=  await axios.get(api.verifyOtp(id, obj));
+     if (res.data.success === true) {
+
+      navigate("/users/profile");
+    }
     } catch (e) {
       console.log(e);
     }
@@ -159,7 +179,7 @@ export const ApiFunction = () => {
       if (res.data.success === true) {
         var userDetails = res.data.user;
         setUser(userDetails);
-        getNotes(res.data.user.id);
+        get_all_notes(res.data.user.id);
         get_all_users(res.data.user.id);
         window.localStorage.setItem("user", JSON.stringify(userDetails));
 
@@ -215,7 +235,7 @@ export const ApiFunction = () => {
       if (res.data.success === true) {
         var auth = res.data.user;
         setUser(auth);
-        getNotes(auth.id);
+        get_all_notes(auth.id);
         get_all_users(auth.id);
         window.localStorage.setItem("user", JSON.stringify(auth));
       }
@@ -248,6 +268,7 @@ export const ApiFunction = () => {
     update_password,
     get_all_users,
     onSuccessFunc,
+    get_all_notes
   };
 };
 

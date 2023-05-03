@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { AddNote, Users} from "./index";
+import { Users} from "./index";
 import Notes from "../components/Notes";
 import ApiFunction from '../api/ApiFunction';
 
@@ -12,7 +12,6 @@ const api = ApiFunction();
 
   return (
     <>
-      <AddNote />
       <Notes />
       <Users/>
     </>

@@ -85,12 +85,15 @@ module.exports.showSingleNotes = async (req, res) => {
   }
 };
 
-module.exports.uploadNotes = (req, res) => {
+module.exports.uploadNotes = async (req, res) => {
   var id = req.body.id;
   var name = req.body.name;
   var about = req.body.about;
 
   if (req.files) {
+
+    var user = await  User.findById(id);
+    var user_name = user.name;
     var filename = req.files.notes.name;
     var dotindex = filename.indexOf(".");
 
@@ -112,6 +115,7 @@ module.exports.uploadNotes = (req, res) => {
             about: about,
             file: filename,
             user: id,
+            user_name: user_name
           },
           function (err, note) {
             if (err) {
@@ -141,4 +145,26 @@ module.exports.uploadNotes = (req, res) => {
     message: "File Uploded Successfully",
     success: true,
   });
+};
+
+
+module.exports.getAllNotes = async (req, res) => {
+  if (req.params.id !== undefined) {
+    var notes = await Note.find();
+    var output = [];
+    for (let i = 0; i < notes.length; i++) {
+      output.push(notes[i]);
+    }
+
+    return res.status(200).json({
+      message: "Get All User Successfully",
+      success: true,
+      output,
+    });
+  } else {
+    return res.status(400).json({
+      message: "User Already LogOut",
+      success: false,
+    });
+  }
 };

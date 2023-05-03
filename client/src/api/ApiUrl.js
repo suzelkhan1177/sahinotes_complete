@@ -1,12 +1,15 @@
 const HOST = "http://localhost:8000";
 
 const ApiUrl = () => {
+  const clientId = () => {  return `1011703805644-0bd3gm5uo9unqsvk3aaepqehr8nntunk.apps.googleusercontent.com`;};
+  const clientSecret = () => {  return `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`;};
   const signin = () => {  return `${HOST}/users/create_session`;};
   const google_login = () => {  return `${HOST}/users/google_login`;};
   const signup = () => {  return `${HOST}/users/create`;};
   const logout = () => {  return `${HOST}/users/logout`;  };
   const authentication = (id) => {  return `${HOST}/users/check_authentication/${id}`;};
   const getAllUsers = (id) => {  return `${HOST}/users/get_all_users/${id}`;};
+  const  getAllNotes = (id) => { return `${HOST}/users/notes/get_all_notes/${id}`};
   const  getNotes = (id) => { return `${HOST}/users/notes/show_all_notes/${id}`};
   const  showSingleNotes = (user_id, file) => { return `${HOST}/users/notes/show_single_notes/${user_id}/${file}`};
   const  uploadNotes = () => { return `${HOST}/users/notes/upload_notes`};
@@ -46,7 +49,11 @@ const ApiUrl = () => {
     get_comment,
     delete_child_comment,
     delete_parent_comment,
-    google_login
+    google_login,
+    clientId,
+    clientSecret,
+    getAllNotes
+
   };
 };
 

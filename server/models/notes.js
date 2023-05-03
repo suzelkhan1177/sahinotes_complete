@@ -5,6 +5,7 @@ const noteSchema = new mongoose.Schema({
    about: {type: String, require: true},
    file: {type: String, require: true},
    user: {type: mongoose.Schema.Types.ObjectId , require: true, ref: 'User'},
+   user_name: {type: String, require: true},
    likedUsers:[{type: mongoose.Schema.Types.ObjectId ,  ref: 'User'}],
    comments:[{type: mongoose.Schema.Types.ObjectId ,  ref: 'Comment'}],
    views: [{type : mongoose.Schema.Types.ObjectId, ref: 'Note'}],

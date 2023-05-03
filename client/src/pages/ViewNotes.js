@@ -4,6 +4,7 @@ import ApiFunction from "../api/ApiFunction";
 import AuthContext from "../context/notes/AuthContext";
 import axios from "axios";
 import ApiUrl from "../api/ApiUrl";
+import "../assets/css/NoteItem.css";
 
 
 const ViewNotes = () => {
@@ -164,9 +165,14 @@ const delete_parent_comment = async (id) => {
       <h5>
         likes {like.likes} views {like.views}
       </h5>
-      <object data={data} type="application/pdf" width="700" height="400">
-        Image Note Found
-      </object>
+      <div>
+            <iframe
+            title="This is a unique title"
+             width="1000" height="500"
+              // class="responsive-iframe"
+              src={data}
+            ></iframe>
+      </div>
       <button onClick={()=>{likes(file)}}>like</button>
       <button onClick={()=>{Unlikes(file)}}>Unlike</button>
       <h3>
