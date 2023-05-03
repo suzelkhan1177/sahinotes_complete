@@ -8,6 +8,7 @@ Host is a simple tool to upload and host your PDF online. Sharing your PDF onlin
 * Note Comment and Child Comment
 * Like Note And Unlike Note
 * Download Friends Notes
+* used Nodemailer to send out emails.
 
 <div> 
 <h3>Project Logo</h3>
