@@ -4,10 +4,13 @@ Host is a simple tool to upload and host your PDF online. Sharing your PDF onlin
 
 ## Features
 * Google Authentication
+* Forget password Functionality
+  send mail your email Id.
 * Mobile Otp Verification
 * Note Comment and Child Comment
 * Like Note And Unlike Note
 * Download Friends Notes
+* used Nodemailer to send out emails.
 
 <div> 
 <h3>Project Logo</h3>
