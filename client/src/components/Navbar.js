@@ -44,7 +44,10 @@ const Navbar = () => {
           <div className="nav-links" id="nav-links">
             {item !== null ? (
               <ul className="flex">
-                <li>
+               <li>
+               <Link to="/users/profile" className="hover-link">
+              <img  className="profile" src={require("../assets/images/Avatar.png")} alt="Profile" />
+                </Link>  
                   <Link to="/users/profile" className="hover-link">
                     {comp}
                   </Link>

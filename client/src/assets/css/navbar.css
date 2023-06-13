@@ -23,6 +23,12 @@ body {
     overflow: hidden;
 }
 
+.profile{
+    border-radius: 50%;
+    height: 45px;
+    width: 50px;
+  }
+
 a {
 	color: #333;
 	font-size: 14px;

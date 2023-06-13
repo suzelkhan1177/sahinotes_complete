@@ -25,7 +25,8 @@ const NoteItem = (props) => {
         style={{ maxWidth: "300px" }}
       >
         <MDBCardHeader background="transparent" border="success">
-          <h5>Note User :{note.user_name}</h5>
+          <h5> <img  className="profile" src={require("../assets/images/user.png")} alt="Profile" />
+              {note.user_name}</h5>
         </MDBCardHeader>
         <Link to="/users/view_notes" state={{ file: note.file, id: note._id }}>
           <div class="pdf-container">
