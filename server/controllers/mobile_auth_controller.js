@@ -28,7 +28,7 @@ module.exports.sendotpMessage = async (req, res) => {
     message: `Your SahiNotes Application One Time OTP is  ${otp}.  Created By Suzel`,
     numbers: [mobile_number],
   };
-  var output = true;  // await fast2sms.sendMessage(options);
+  var output =   await fast2sms.sendMessage(options);
   if (output) {
       User.findById(user_id, async function(err, user) {
           if (err) {console.log('Error in finding user in send otp: ', err); return;}

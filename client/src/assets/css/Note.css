@@ -1,0 +1,190 @@
+.card-section {
+    background-color: #aef08a;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+
+  .card-section-2 {
+    background-color: #aef08a;
+    padding: 20px;
+    border-radius: 8px;
+    /* text-align: center; */
+  }
+  
+  .card-heading {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .card-username {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .card-note {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .card-file {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .card-likes-views {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .card-iframe {
+    margin-bottom: 20px;
+  }
+  
+  .card-button {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .card-button:hover {
+    background-color: #286090;
+  }
+  
+  /* Responsive Styles */
+  
+  @media screen and (max-width: 768px) {
+    .card-section {
+      padding: 10px;
+    }
+  
+    .card-heading {
+      font-size: 24px;
+    }
+  
+    .card-username {
+      font-size: 18px;
+    }
+  
+    .card-note {
+      font-size: 16px;
+    }
+  
+    .card-file {
+      font-size: 14px;
+    }
+  
+    .card-likes-views {
+      font-size: 12px;
+    }
+  
+    .card-iframe {
+        width: 400;
+        height: 500;
+      margin-bottom: 10px;
+    }
+  }
+  
+ 
+
+.child-comment-wrapper-parent {
+  border: 2px solid #282323; /* Add desired border style and color */
+  border-radius: 4px; /* Add desired border radius */
+  padding: 10px; /* Add desired padding */
+  background-color: #c9f0bc;
+  width: 100%; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.child-comment-wrapper-child {
+  border: 2px solid #282323; /* Add desired border style and color */
+  border-radius: 4px; /* Add desired border radius */
+  padding: 10px; /* Add desired padding */
+  background-color: #c9f0bc;
+  width: 100%; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 50px;
+}
+
+.child-comment-username {
+  color: #333; /* Add desired text color */
+  font-weight: bold; /* Add desired font weight */
+}
+
+.child-comment-text {
+  color: #555; /* Add desired text color */
+  font-size: 20px;
+}
+
+.comment-username {
+  /* Add your CSS styles for the comment username */
+  /* Example styles */
+  color: #333;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.comment-text {
+  /* Add your CSS styles for the comment text */
+  /* Example styles */
+  color: #555;
+  font-size: 20px;
+}
+
+.comment-input {
+  /* Add your CSS styles for the input */
+  /* Example styles */
+  width: 70%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #040404;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-right: 10px;
+}
+
+.comment-input-2 {
+  /* Add your CSS styles for the input */
+  /* Example styles */
+  width: 70%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #040404;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+
+.child-heading{
+  margin-left: 50px;
+}
+
+
+/* Media query for responsive styles */
+@media screen and (max-width: 768px) {
+  .comment-input {
+    /* Update styles for smaller screens */
+    /* Example styles */
+    width: 100%;
+    font-size: 14px;
+  }
+
+}
+
+
+
+  
