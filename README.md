@@ -60,8 +60,11 @@ Host is a simple tool to upload and host your PDF online. Sharing your PDF onlin
 <div> 
   <h3>View Single Note</h3> 
 <p> Note Comment and Child Comment , Like Note And Unlike Note ,  Download Friends Notes </p>
-  <img src="https://user-images.githubusercontent.com/64069582/235890406-d6157eec-a4d4-45d8-9a9b-856ca0fde5a7.png" width="370" height="230px"> 
+  <img src="https://github.com/suzelkhan1177/sahinotes_complete/assets/64069582/09ce1b8f-b0af-4864-bdf7-aeaac76e0142" width="370" height="230px"> 
+</br>
+   <img src="https://github.com/suzelkhan1177/sahinotes_complete/assets/64069582/95480d97-5007-4773-92a6-0196d3b9ea9d" width="370" height="230px"> 
 </div>
+
 
 <div> 
   <h3>Upload Note</h3>
